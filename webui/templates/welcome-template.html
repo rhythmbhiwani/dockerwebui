@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="/static/stylesheets/welcome-template.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <!-- The welcome struct (shown in the main.go code) is received within the HTML and we just need to use the . operator and retrieve the information we want -->
+  <title>Docker Management with GO</title>
+</head>
+
+<body>
+  <div class="heading">
+    <center>Running Containers Docker</center>
+  </div>
+  <table class="heading" cellspacing="20" border="1" width="100%">
+    <tr>
+      <th>Container ID</th>
+      <th>Image Name</th>
+      <th>Command</th>
+      <th>Container Name</th>
+      <th>Status</th>
+      <th>Action</th>
+    </tr>
+    {{range .}}
+    <tr>
+      <td style="background-color:#000">{{.Imgid}}</td>
+      <td style="background-color:#000">{{.Imgname}}</td>
+      <td style="background-color:#000">{{.Command}}</td>
+      <td style="background-color:#000">{{.Container_Name}}</td>
+      <td style="background-color:#000">{{.Status}}</td>
+      <td>
+        <form action="/startcontainer" method="get" id="start{{.Container_Name}}">
+          <input type="hidden" name="container_name" value="{{.Container_Name}}" />
+          <button class="btn fa fa-play" type="submit" form="start{{.Container_Name}}">
+        </form>
+        <form action="/stopcontainer" method="get" id="stop{{.Container_Name}}">
+          <input type="hidden" name="container_name" value="{{.Container_Name}}" />
+          <button class="btn fa fa-stop" type="submit" form="stop{{.Container_Name}}">
+        </form>
+        <form action="/removecontainer" method="get" id="delete{{.Container_Name}}">
+          <input type="hidden" name="container_name" value="{{.Container_Name}}" />
+          <button class="btn fa fa-trash" type="submit" form="delete{{.Container_Name}}">
+        </form>
+      </td>
+    </tr>
+    {{end}}
+  </table>
+  <br><br>
+  <h3 class="heading">Launch Instance</h3>
+  <form class="" action="" method="get">
+    <label class="heading">Enter Image Name: </label><br>
+    <input class="fields" type="text" name="imagename" placeholder="eg: alpine/ubuntu/nginx" required><br><br>
+    <input class="fields" type="text" name="commandtorun" placeholder="eg: ping fb.com"><br><br>
+    <input style="background-color: #008CBA; font-size: 30px;" type="submit" value="Submit">
+  </form>
+</body>
+
+</html>
